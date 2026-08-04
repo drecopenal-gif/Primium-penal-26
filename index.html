@@ -677,14 +677,16 @@
 
     // ==================== POPUNDER & NATIVE ====================
     function loadPopunder() {
-      // 24 hours cooldown – only 1 time per day per user
-      const KEY = 'lv_popunder_ts';
+      // 24 hours cooldown PER short-link (new link = popunder allowed again)
+      const params = new URLSearchParams(window.location.search);
+      const linkId = params.get('s') || 'default';
+      const KEY = 'lv_pop_' + linkId.substring(0, 40); // unique per short link
       const now = Date.now();
       const last = parseInt(localStorage.getItem(KEY) || '0', 10);
-      const ONE_DAY = 24 * 60 * 60 * 1000; // 24 hours in ms
+      const ONE_DAY = 24 * 60 * 60 * 1000;
 
       if (now - last < ONE_DAY) {
-        return; // already shown within last 24 hours
+        return; // same link already shown within 24 hours
       }
 
       const s = document.createElement('script');
@@ -692,7 +694,6 @@
       s.async = true;
       document.body.appendChild(s);
 
-      // Save current timestamp
       localStorage.setItem(KEY, String(now));
     }
 
@@ -806,8 +807,27 @@
       document.getElementById('btn-scroll').classList.remove('show');
       currentStage = 'bottom';
       loadBottomAds();
-      document.getElementById('stage-bottom').scrollIntoView({ behavior: 'smooth' });
-      setTimeout(() => startStageTimer('bottom'), 400);
+
+      // Smooth scroll further down
+      const bottom = document.getElementById('stage-bottom');
+      bottom.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      // After scroll finishes, hide top stage completely
+      setTimeout(function() {
+        const top = document.getElementById('stage-top');
+        top.style.transition = 'opacity 0.35s ease, max-height 0.4s ease';
+        top.style.opacity = '0';
+        top.style.maxHeight = '0';
+        top.style.overflow = 'hidden';
+        top.style.padding = '0';
+        top.style.minHeight = '0';
+        // ensure we are at bottom
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+      }, 450);
+
+      setTimeout(function() {
+        startStageTimer('bottom');
+      }, 700);
     }
 
     function goNext() {
@@ -822,6 +842,15 @@
       setStageProgress('progress-bot', 0);
       document.getElementById('status-bot').textContent = 'Please wait a moment...';
 
+      // Restore top stage visibility
+      const top = document.getElementById('stage-top');
+      top.style.transition = 'none';
+      top.style.opacity = '1';
+      top.style.maxHeight = '';
+      top.style.overflow = '';
+      top.style.padding = '';
+      top.style.minHeight = '100vh';
+
       // Scroll back to top
       window.scrollTo({ top: 0, behavior: 'smooth' });
 
@@ -830,7 +859,7 @@
         loadTopAds();
         loadNative();
         startStageTimer('top');
-      }, 350);
+      }, 400);
     }
 
     // ==================== SMARTLINK + FINAL ====================
