@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>LinkVault | Secure Access</title>
+  <link rel="preconnect" href="https://www.highperformanceformat.com">
+  <link rel="preconnect" href="https://pl30678418.effectivecpmnetwork.com">
+  <link rel="preconnect" href="https://pl30678420.effectivecpmnetwork.com">
+  <link rel="dns-prefetch" href="https://www.highperformanceformat.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #07070c;
+      --surface: rgba(255,255,255,0.04);
+      --border: rgba(255,255,255,0.09);
+      --accent: #8b5cf6;
+      --accent2: #06b6d4;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --success: #22c55e;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Background glow */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -40%;
+      left: -20%;
+      width: 80%;
+      height: 80%;
+      background: radial-gradient(circle, rgba(139,92,246,0.12) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      bottom: -30%;
+      right: -20%;
+      width: 70%;
+      height: 70%;
+      background: radial-gradient(circle, rgba(6,182,212,0.1) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ========== PROGRESS BAR ========== */
+    #top-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 3.5px;
+      width: 0%;
+      background: linear-gradient(90deg, #8b5cf6, #06b6d4, #22d3ee);
+      z-index: 9999;
+      transition: width 0.08s linear;
+      box-shadow: 0 0 24px rgba(139,92,246,0.55);
+    }
+
+    /* ========== ADMIN ========== */
+    #admin-page {
+      display: none;
+      position: relative;
+      z-index: 1;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 60px 20px 80px;
+    }
+    #admin-page.active { display: block; }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 36px 28px;
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .logo h1 {
+      font-size: 1.9rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #a78bfa, #22d3ee);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.5px;
+    }
+    .logo p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: 8px;
+    }
+
+    .field { margin-bottom: 20px; }
+    .field label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--muted);
+      margin-bottom: 8px;
+      letter-spacing: 0.3px;
+    }
+    .field input {
+      width: 100%;
+      padding: 14px 16px;
+      background: rgba(0,0,0,0.35);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      color: var(--text);
+      font-size: 0.95rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .field input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(139,92,246,0.15);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 15px 20px;
+      border: none;
+      border-radius: 14px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 50%, #5b21b6 100%);
+      color: #fff;
+      box-shadow: 0 8px 28px rgba(124,58,237,0.4);
+      letter-spacing: 0.2px;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 36px rgba(124,58,237,0.5);
+      filter: brightness(1.05);
+    }
+    .btn-primary:active { transform: translateY(0); }
+
+    .btn-ghost {
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      border: 1px solid var(--border);
+      margin-top: 10px;
+    }
+    .btn-ghost:hover { background: rgba(255,255,255,0.1); }
+
+    .btn-scroll, .btn-next {
+      max-width: 280px;
+      margin: 0 auto;
+      display: none;
+    }
+    .btn-scroll.show, .btn-next.show { display: inline-flex; }
+
+    .result {
+      display: none;
+      margin-top: 24px;
+      padding: 18px;
+      background: rgba(34,197,94,0.08);
+      border: 1px solid rgba(34,197,94,0.25);
+      border-radius: 16px;
+    }
+    .result.show { display: block; }
+    .result .url {
+      word-break: break-all;
+      font-size: 0.85rem;
+      color: var(--success);
+      margin-bottom: 14px;
+      font-weight: 500;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 28px;
+    }
+    .stat {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      text-align: center;
+    }
+    .stat .num {
+      font-size: 1.6rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #a78bfa, #22d3ee);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat .lbl {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* ========== FLOW ========== */
+    #flow-page {
+      display: none;
+      position: relative;
+      z-index: 1;
+      padding-bottom: 60px;
+    }
+    #flow-page.active { display: block; }
+
+    .stage {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 28px 16px 50px;
+    }
+
+    .stage-label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+    .page-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(6,182,212,0.1));
+      border: 1px solid rgba(139,92,246,0.3);
+      padding: 8px 18px;
+      border-radius: 100px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #c4b5fd;
+      margin-bottom: 24px;
+      letter-spacing: 0.3px;
+    }
+
+    .ad-label {
+      font-size: 0.65rem;
+      letter-spacing: 1.5px;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      text-align: center;
+      font-weight: 500;
+    }
+
+    .ad-box {
+      position: relative;
+      background: rgba(0,0,0,0.35);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 18px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    }
+
+    #ad-top-300, #ad-bot-300 {
+      width: 300px;
+      height: 250px;
+    }
+    #ad-top-728, #ad-bot-728 {
+      width: 728px;
+      max-width: 100%;
+      height: 90px;
+    }
+
+    .ad-wrap-728 {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      overflow-x: auto;
+      margin-bottom: 8px;
+    }
+
+    @media (max-width: 760px) {
+      #ad-top-728, #ad-bot-728 { transform: scale(0.9); transform-origin: top center; }
+    }
+    @media (max-width: 680px) {
+      #ad-top-728, #ad-bot-728 { transform: scale(0.75); }
+    }
+    @media (max-width: 560px) {
+      #ad-top-728, #ad-bot-728 { transform: scale(0.6); }
+    }
+    @media (max-width: 420px) {
+      #ad-top-728, #ad-bot-728 { transform: scale(0.5); }
+    }
+
+    .center-info {
+      text-align: center;
+      margin: 18px 0 10px;
+      max-width: 360px;
+    }
+
+    .status {
+      font-size: 0.92rem;
+      color: var(--muted);
+      margin-bottom: 14px;
+      min-height: 24px;
+      font-weight: 500;
+      letter-spacing: 0.2px;
+    }
+
+    /* Progress bar for stage timer */
+    .stage-progress-wrap {
+      width: 100%;
+      max-width: 300px;
+      height: 8px;
+      background: rgba(255,255,255,0.07);
+      border-radius: 100px;
+      overflow: hidden;
+      margin: 0 auto 22px;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
+    }
+    .stage-progress {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #8b5cf6, #06b6d4, #22d3ee);
+      border-radius: 100px;
+      transition: width 0.1s linear;
+      box-shadow: 0 0 12px rgba(139,92,246,0.4);
+    }
+
+    /* Native ad container */
+    #native-wrap {
+      display: none;
+      width: 100%;
+      max-width: 360px;
+      margin: 28px auto 10px;
+      min-height: 80px;
+      max-height: 320px;
+      overflow: hidden;
+    }
+    #native-wrap.show { display: block; }
+
+    /* Final access */
+    #final-box {
+      display: none;
+      text-align: center;
+      margin-top: 24px;
+      padding: 32px 24px;
+      background: linear-gradient(145deg, rgba(139,92,246,0.08), rgba(6,182,212,0.05));
+      border: 1px solid rgba(139,92,246,0.2);
+      border-radius: 22px;
+      max-width: 360px;
+      animation: fadeUp 0.4s ease;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+    }
+    #final-box.show { display: block; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .shimmer {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      pointer-events: none;
+      border-radius: 12px;
+    }
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    .ad-box.loaded .shimmer { display: none; }
+
+    .click-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 20;
+      cursor: pointer;
+      background: transparent;
+    }
+    .click-overlay.hidden { display: none; }
+
+    .click-msg {
+      display: none;
+      font-size: 0.85rem;
+      color: #a78bfa;
+      font-weight: 600;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+    .click-msg.show { display: block; }
+
+    .error-box {
+      max-width: 400px;
+      margin: 100px auto;
+      text-align: center;
+      padding: 40px 24px;
+      position: relative;
+      z-index: 1;
+    }
+    .error-box h2 { color: #f87171; margin-bottom: 12px; }
+  </style>
+</head>
+<body>
+  <div id="top-progress"></div>
+
+  <!-- ==================== ADMIN ==================== -->
+  <div id="admin-page">
+    <div class="card">
+      <div class="logo">
+        <h1>LinkVault</h1>
+        <p>Premium short links with smart access</p>
+      </div>
+
+      <div class="field">
+        <label>Destination Link</label>
+        <input type="url" id="main-link" placeholder="https://example.com/your-page" autocomplete="off">
+      </div>
+
+      <button class="btn btn-primary" onclick="createShortLink()">Create Short Link</button>
+
+      <div class="result" id="result-box">
+        <div class="url" id="short-url-text"></div>
+        <button class="btn btn-ghost" onclick="copyShortLink()">Copy Link</button>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="num" id="stat-links">0</div>
+        <div class="lbl">Links Created</div>
+      </div>
+      <div class="stat">
+        <div class="num" id="stat-visits">0</div>
+        <div class="lbl">Total Visits</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== FLOW ==================== -->
+  <div id="flow-page">
+
+    <!-- ===== STAGE TOP ===== -->
+    <div class="stage" id="stage-top">
+      <div class="page-badge">Page <span id="page-num">1</span> / 3</div>
+
+      <div class="ad-label">ADVERTISEMENT</div>
+      <div class="ad-box" id="ad-top-300">
+        <div class="shimmer"></div>
+      </div>
+
+      <div class="ad-label">ADVERTISEMENT</div>
+      <div class="ad-wrap-728">
+        <div class="ad-box" id="ad-top-728">
+          <div class="shimmer"></div>
+        </div>
+      </div>
+
+      <div class="center-info">
+        <div class="status" id="status-top">Please wait a moment...</div>
+        <div class="click-msg" id="click-msg-top"></div>
+        <div class="stage-progress-wrap">
+          <div class="stage-progress" id="progress-top"></div>
+        </div>
+        <button class="btn btn-primary btn-scroll" id="btn-scroll" onclick="doScrollDown()">
+          Click to scroll down ↓
+        </button>
+      </div>
+
+      <!-- Native below button so it doesn't push the button down -->
+      <div id="native-wrap"></div>
+    </div>
+
+    <!-- ===== STAGE BOTTOM ===== -->
+    <div class="stage" id="stage-bottom">
+      <div class="ad-label">ADVERTISEMENT</div>
+      <div class="ad-box" id="ad-bot-300">
+        <div class="shimmer"></div>
+      </div>
+
+      <div class="ad-label">ADVERTISEMENT</div>
+      <div class="ad-wrap-728">
+        <div class="ad-box" id="ad-bot-728">
+          <div class="shimmer"></div>
+        </div>
+      </div>
+
+      <div class="center-info">
+        <div class="status" id="status-bot">Please wait a moment...</div>
+        <div class="click-msg" id="click-msg-bot"></div>
+        <div class="stage-progress-wrap">
+          <div class="stage-progress" id="progress-bot"></div>
+        </div>
+        <button class="btn btn-primary btn-next" id="btn-next" onclick="goNext()">
+          Next Page →
+        </button>
+
+        <div id="final-box">
+          <p style="font-size:0.9rem;color:var(--muted);margin-bottom:16px;">Access ready</p>
+          <button class="btn btn-primary" onclick="handleGetAccess()" style="margin-bottom:10px;">
+            Get Access
+          </button>
+          <button class="btn btn-ghost" id="btn-continue" style="display:none;" onclick="goToMain()">
+            Continue to Destination →
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ==================== CONSTANTS ====================
+    const AD_300_KEY = 'fe5425c87d33c6441e36242e1aa8281b';
+    const AD_728_KEY = '4c342efed49c6f38506bdcbbb7ecee4a';
+
+    const SMARTLINKS = [
+      'https://www.effectivecpmnetwork.com/xqug1e3v96?key=b75732661b59d7a6f37cf1d0de725805',
+      'https://www.effectivecpmnetwork.com/gpstdryr?key=2fd55fe93f90bdbe82e3452805296412',
+      'https://www.effectivecpmnetwork.com/t3dzv8fv?key=0f835b1c02f51864c0814e9a10e8dbdb',
+      'https://www.effectivecpmnetwork.com/v390gi5k?key=a634a3f6a0067c14cb621dc5e47b5aec',
+      'https://www.effectivecpmnetwork.com/v3ktmve58i?key=e2dbaadb1f40e27b9fa3b0db449f92f1'
+    ];
+
+    const POPUNDER_SRC = 'https://pl30678418.effectivecpmnetwork.com/48/83/fb/4883fb52f7127667e94cd6a91d5396b9.js';
+    const NATIVE_SRC = 'https://pl30678420.effectivecpmnetwork.com/556e27d323d8a3c52412ad771d77b37d/invoke.js';
+    const NATIVE_ID = 'container-556e27d323d8a3c52412ad771d77b37d';
+
+    const STAGE_TIME = 6; // seconds
+    const TOTAL_PAGES = 3;
+
+    // ==================== STATE ====================
+    let mainLink = '';
+    let currentPage = 1;
+    let currentStage = 'top'; // 'top' | 'bottom'
+    let timer = null;
+    let remain = 0;
+    let assignedSmartlink = '';
+    let smartlinkOpened = false;
+
+    // Click system
+    let clickStages = [];       // e.g. ['1-top', '2-bottom']
+    let clicksNeeded = 0;
+    let clicksDone = 0;
+    let stagePaused = false;
+
+    // ==================== AD LOADER ====================
+    function loadAd(key, width, height, containerId) {
+      const box = document.getElementById(containerId);
+      if (!box) return;
+
+      // Full clear
+      while (box.firstChild) box.removeChild(box.firstChild);
+      box.classList.remove('loaded');
+
+      // Keep fixed size so network sees correct slot
+      box.style.width = width + 'px';
+      box.style.height = height + 'px';
+      box.style.maxWidth = '100%';
+
+      const shimmer = document.createElement('div');
+      shimmer.className = 'shimmer';
+      box.appendChild(shimmer);
+
+      // Official exact format
+      const conf = document.createElement('script');
+      conf.type = 'text/javascript';
+      conf.text = "atOptions = {\n  'key' : '" + key + "',\n  'format' : 'iframe',\n  'height' : " + height + ",\n  'width' : " + width + ",\n  'params' : {}\n};";
+      box.appendChild(conf);
+
+      // Small delay so conf script fully executes before invoke
+      setTimeout(function() {
+        const inv = document.createElement('script');
+        inv.type = 'text/javascript';
+        inv.src = 'https://www.highperformanceformat.com/' + key + '/invoke.js';
+        inv.onload = function() {
+          box.classList.add('loaded');
+          setTimeout(function(){ addOverlay(containerId); }, 300);
+        };
+        inv.onerror = function() {
+          box.classList.add('loaded');
+          addOverlay(containerId);
+        };
+        box.appendChild(inv);
+      }, 50);
+    }
+
+    function addOverlay(containerId) {
+      const box = document.getElementById(containerId);
+      if (!box) return;
+      const old = box.querySelector('.click-overlay');
+      if (old) old.remove();
+
+      const ov = document.createElement('div');
+      ov.className = 'click-overlay';
+      // hide by default, show only when stage needs clicks
+      if (!stagePaused) ov.classList.add('hidden');
+      ov.onclick = handleAdClick;
+      box.appendChild(ov);
+    }
+
+    function handleAdClick(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (!stagePaused || clicksNeeded <= 0) return;
+
+      clicksDone++;
+      updateClickMsg();
+
+      // briefly hide overlay so real ad click can pass
+      const ov = e.currentTarget;
+      ov.classList.add('hidden');
+      setTimeout(() => {
+        if (clicksDone < clicksNeeded) ov.classList.remove('hidden');
+      }, 500);
+
+      if (clicksDone >= clicksNeeded) {
+        // completed
+        stagePaused = false;
+        hideAllOverlays();
+        document.getElementById('click-msg-top').classList.remove('show');
+        document.getElementById('click-msg-bot').classList.remove('show');
+        // resume timer from where it left (or restart remaining)
+        resumeStageTimer();
+      }
+    }
+
+    function hideAllOverlays() {
+      document.querySelectorAll('.click-overlay').forEach(o => o.classList.add('hidden'));
+    }
+
+    function showOverlays() {
+      document.querySelectorAll('.click-overlay').forEach(o => o.classList.remove('hidden'));
+    }
+
+    function updateClickMsg() {
+      const msg = 'Continue karva mate ad par click karo (' + clicksDone + '/' + clicksNeeded + ')';
+      const el = currentStage === 'top' ? document.getElementById('click-msg-top') : document.getElementById('click-msg-bot');
+      el.textContent = msg;
+      el.classList.add('show');
+    }
+
+    function loadTopAds() {
+      loadAd(AD_300_KEY, 300, 250, 'ad-top-300');
+      setTimeout(() => loadAd(AD_728_KEY, 728, 90, 'ad-top-728'), 600);
+    }
+
+    function loadBottomAds() {
+      loadAd(AD_300_KEY, 300, 250, 'ad-bot-300');
+      setTimeout(() => loadAd(AD_728_KEY, 728, 90, 'ad-bot-728'), 600);
+    }
+
+    // ==================== POPUNDER & NATIVE ====================
+    function loadPopunder() {
+      // 24 hours cooldown – only 1 time per day per user
+      const KEY = 'lv_popunder_ts';
+      const now = Date.now();
+      const last = parseInt(localStorage.getItem(KEY) || '0', 10);
+      const ONE_DAY = 24 * 60 * 60 * 1000; // 24 hours in ms
+
+      if (now - last < ONE_DAY) {
+        return; // already shown within last 24 hours
+      }
+
+      const s = document.createElement('script');
+      s.src = POPUNDER_SRC;
+      s.async = true;
+      document.body.appendChild(s);
+
+      // Save current timestamp
+      localStorage.setItem(KEY, String(now));
+    }
+
+    function loadNative() {
+      const wrap = document.getElementById('native-wrap');
+      wrap.innerHTML = '';
+      wrap.classList.add('show');
+
+      const div = document.createElement('div');
+      div.id = NATIVE_ID;
+      wrap.appendChild(div);
+
+      const s = document.createElement('script');
+      s.async = true;
+      s.setAttribute('data-cfasync', 'false');
+      s.src = NATIVE_SRC;
+      wrap.appendChild(s);
+    }
+
+    function hideNative() {
+      const wrap = document.getElementById('native-wrap');
+      wrap.innerHTML = '';
+      wrap.classList.remove('show');
+    }
+
+    // ==================== TIMER / PROGRESS ====================
+    function setTopProgress(pct) {
+      document.getElementById('top-progress').style.width = Math.min(100, pct) + '%';
+    }
+
+    function setStageProgress(elId, pct) {
+      document.getElementById(elId).style.width = Math.min(100, pct) + '%';
+    }
+
+    function startStageTimer(stage) {
+      if (timer) clearInterval(timer);
+      remain = STAGE_TIME;
+      currentStage = stage;
+      const progId = stage === 'top' ? 'progress-top' : 'progress-bot';
+      const statusId = stage === 'top' ? 'status-top' : 'status-bot';
+      const btnId = stage === 'top' ? 'btn-scroll' : 'btn-next';
+      const msgId = stage === 'top' ? 'click-msg-top' : 'click-msg-bot';
+
+      document.getElementById(btnId).classList.remove('show');
+      document.getElementById(msgId).classList.remove('show');
+      document.getElementById(statusId).textContent = 'Please wait a moment...';
+      setStageProgress(progId, 0);
+
+      // Check if this stage needs clicks
+      const stageKey = currentPage + '-' + stage;
+      clicksNeeded = clickStages.filter(s => s === stageKey).length;
+      clicksDone = 0;
+      stagePaused = clicksNeeded > 0;
+
+      if (stagePaused) {
+        document.getElementById(statusId).textContent = 'Please interact with the ads';
+        updateClickMsg();
+        // overlays will be shown when ads load
+        setTimeout(showOverlays, 800);
+      } else {
+        hideAllOverlays();
+      }
+
+      runTimer(stage, progId, statusId, btnId);
+    }
+
+    function runTimer(stage, progId, statusId, btnId) {
+      const start = Date.now();
+      const initialRemain = remain;
+
+      timer = setInterval(() => {
+        if (stagePaused) return; // paused until clicks done
+
+        const elapsed = (Date.now() - start) / 1000;
+        remain = Math.max(0, initialRemain - elapsed);
+        const pct = ((STAGE_TIME - remain) / STAGE_TIME) * 100;
+        setStageProgress(progId, pct);
+
+        const stageIndex = (currentPage - 1) * 2 + (stage === 'top' ? 0 : 1);
+        const overall = ((stageIndex + (STAGE_TIME - remain) / STAGE_TIME) / 6) * 100;
+        setTopProgress(overall);
+
+        if (remain <= 0) {
+          clearInterval(timer);
+          timer = null;
+          document.getElementById(statusId).textContent = stage === 'top' ? 'Ready to continue' : 'Ready for next step';
+          document.getElementById(btnId).classList.add('show');
+
+          if (stage === 'bottom' && currentPage === TOTAL_PAGES) {
+            document.getElementById('btn-next').classList.remove('show');
+            document.getElementById('final-box').classList.add('show');
+            document.getElementById('status-bot').textContent = 'All steps completed';
+            setTopProgress(100);
+          }
+        }
+      }, 50);
+    }
+
+    function resumeStageTimer() {
+      // continue with remaining time
+      const stage = currentStage;
+      const progId = stage === 'top' ? 'progress-top' : 'progress-bot';
+      const statusId = stage === 'top' ? 'status-top' : 'status-bot';
+      const btnId = stage === 'top' ? 'btn-scroll' : 'btn-next';
+      document.getElementById(statusId).textContent = 'Thanks! Continuing...';
+      runTimer(stage, progId, statusId, btnId);
+    }
+
+    // ==================== NAVIGATION ====================
+    function doScrollDown() {
+      document.getElementById('btn-scroll').classList.remove('show');
+      currentStage = 'bottom';
+      loadBottomAds();
+      document.getElementById('stage-bottom').scrollIntoView({ behavior: 'smooth' });
+      setTimeout(() => startStageTimer('bottom'), 400);
+    }
+
+    function goNext() {
+      if (currentPage >= TOTAL_PAGES) return;
+      currentPage++;
+      currentStage = 'top';
+      document.getElementById('page-num').textContent = currentPage;
+      document.getElementById('btn-next').classList.remove('show');
+      document.getElementById('final-box').classList.remove('show');
+
+      // Reset bottom progress
+      setStageProgress('progress-bot', 0);
+      document.getElementById('status-bot').textContent = 'Please wait a moment...';
+
+      // Scroll back to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      // Load ads for new page top + Native on every page
+      setTimeout(() => {
+        loadTopAds();
+        loadNative();
+        startStageTimer('top');
+      }, 350);
+    }
+
+    // ==================== SMARTLINK + FINAL ====================
+    function assignSmartlink() {
+      if (sessionStorage.getItem('sl_assigned')) {
+        assignedSmartlink = sessionStorage.getItem('sl_url');
+        smartlinkOpened = sessionStorage.getItem('sl_opened') === '1';
+        return;
+      }
+      const idx = Math.floor(Math.random() * SMARTLINKS.length);
+      assignedSmartlink = SMARTLINKS[idx];
+      sessionStorage.setItem('sl_assigned', '1');
+      sessionStorage.setItem('sl_url', assignedSmartlink);
+      sessionStorage.setItem('sl_opened', '0');
+    }
+
+    function assignClickGroup() {
+      if (sessionStorage.getItem('ck_assigned')) {
+        clickStages = JSON.parse(sessionStorage.getItem('ck_stages') || '[]');
+        return;
+      }
+
+      // 90% → 0 clicks | 6% → 2 clicks | 4% → 1 click
+      const r = Math.random();
+      let stages = [];
+      const allStages = ['1-top','1-bottom','2-top','2-bottom','3-top','3-bottom'];
+
+      if (r < 0.06) {
+        // 6% → 2 clicks on two different random stages
+        const pool = [...allStages];
+        const i1 = Math.floor(Math.random() * pool.length);
+        stages.push(pool.splice(i1, 1)[0]);
+        const i2 = Math.floor(Math.random() * pool.length);
+        stages.push(pool[i2]);
+      } else if (r < 0.10) {
+        // 4% → 1 click on one random stage
+        stages.push(allStages[Math.floor(Math.random() * allStages.length)]);
+      }
+      // else 90% → empty
+
+      sessionStorage.setItem('ck_assigned', '1');
+      sessionStorage.setItem('ck_stages', JSON.stringify(stages));
+      clickStages = stages;
+    }
+
+    function handleGetAccess() {
+      if (!smartlinkOpened) {
+        smartlinkOpened = true;
+        sessionStorage.setItem('sl_opened', '1');
+        window.open(assignedSmartlink, '_blank');
+        document.getElementById('btn-continue').style.display = 'inline-flex';
+      } else {
+        goToMain();
+      }
+    }
+
+    function goToMain() {
+      if (mainLink) window.location.href = mainLink;
+    }
+
+    // ==================== ADMIN ====================
+    function createShortLink() {
+      const url = (document.getElementById('main-link').value || '').trim();
+      if (!url) { alert('Please enter a link'); return; }
+      try { new URL(url); } catch(e) { alert('Enter a valid URL'); return; }
+
+      const encoded = btoa(unescape(encodeURIComponent(url)));
+      const short = window.location.origin + window.location.pathname + '?s=' + encoded;
+
+      document.getElementById('short-url-text').textContent = short;
+      document.getElementById('result-box').classList.add('show');
+
+      let total = parseInt(localStorage.getItem('lv_links') || '0') + 1;
+      localStorage.setItem('lv_links', total);
+      document.getElementById('stat-links').textContent = total;
+      window._last = short;
+    }
+
+    function copyShortLink() {
+      const t = window._last || document.getElementById('short-url-text').textContent;
+      if (navigator.clipboard) navigator.clipboard.writeText(t).then(() => alert('Copied!'));
+      else {
+        const ta = document.createElement('textarea');
+        ta.value = t; document.body.appendChild(ta); ta.select();
+        document.execCommand('copy'); document.body.removeChild(ta);
+        alert('Copied!');
+      }
+    }
+
+    // ==================== INIT ====================
+    function init() {
+      const params = new URLSearchParams(location.search);
+      const s = params.get('s');
+
+      if (!s) {
+        document.getElementById('admin-page').classList.add('active');
+        document.getElementById('stat-links').textContent = localStorage.getItem('lv_links') || '0';
+        document.getElementById('stat-visits').textContent = localStorage.getItem('lv_visits') || '0';
+        return;
+      }
+
+      try {
+        mainLink = decodeURIComponent(escape(atob(s)));
+        if (!mainLink.startsWith('http')) throw 0;
+      } catch(e) {
+        document.body.innerHTML = '<div class="error-box card"><h2>Invalid Link</h2><p style="color:var(--muted)">This link is broken.</p></div>';
+        return;
+      }
+
+      let v = parseInt(localStorage.getItem('lv_visits') || '0') + 1;
+      localStorage.setItem('lv_visits', v);
+
+      document.getElementById('flow-page').classList.add('active');
+      assignSmartlink();
+      assignClickGroup();
+
+      // Page 1 → Popunder + top ads + Native
+      loadPopunder();
+      loadTopAds();
+      loadNative();
+      startStageTimer('top');
+    }
+
+    init();
+  </script>
+</body>
+</html>
