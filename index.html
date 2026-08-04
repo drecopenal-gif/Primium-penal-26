@@ -672,20 +672,29 @@
       currentStage = 'bottom';
       loadBottomAds();
 
-      document.getElementById('stage-bottom').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const top = document.getElementById('stage-top');
+      const bottom = document.getElementById('stage-bottom');
 
+      // Hide top stage first (collapse)
+      top.style.transition = 'opacity 0.3s ease, max-height 0.35s ease, padding 0.35s ease';
+      top.style.opacity = '0';
+      top.style.maxHeight = '0';
+      top.style.overflow = 'hidden';
+      top.style.padding = '0';
+      top.style.minHeight = '0';
+      top.style.margin = '0';
+
+      // Bottom stage should not force full viewport empty space
+      bottom.style.minHeight = 'auto';
+      bottom.style.paddingTop = '20px';
+
+      // Scroll so bottom stage ads sit near top of screen (not too far down)
       setTimeout(function () {
-        const top = document.getElementById('stage-top');
-        top.style.transition = 'opacity 0.35s ease, max-height 0.4s ease';
-        top.style.opacity = '0';
-        top.style.maxHeight = '0';
-        top.style.overflow = 'hidden';
-        top.style.padding = '0';
-        top.style.minHeight = '0';
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-      }, 450);
+        const y = bottom.getBoundingClientRect().top + window.pageYOffset - 8;
+        window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+      }, 320);
 
-      setTimeout(function () { startStageTimer('bottom'); }, 700);
+      setTimeout(function () { startStageTimer('bottom'); }, 650);
     }
 
     function goNext() {
@@ -699,12 +708,16 @@
       document.getElementById('status-bot').textContent = 'Please wait a moment...';
 
       const top = document.getElementById('stage-top');
+      const bottom = document.getElementById('stage-bottom');
       top.style.transition = 'none';
       top.style.opacity = '1';
       top.style.maxHeight = '';
       top.style.overflow = '';
       top.style.padding = '';
       top.style.minHeight = '100vh';
+      top.style.margin = '';
+      bottom.style.minHeight = '100vh';
+      bottom.style.paddingTop = '';
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
 
