@@ -675,26 +675,38 @@
       const top = document.getElementById('stage-top');
       const bottom = document.getElementById('stage-bottom');
 
-      // Hide top stage first (collapse)
-      top.style.transition = 'opacity 0.3s ease, max-height 0.35s ease, padding 0.35s ease';
+      // Collapse top stage
+      top.style.transition = 'opacity 0.25s ease, max-height 0.3s ease';
       top.style.opacity = '0';
       top.style.maxHeight = '0';
       top.style.overflow = 'hidden';
       top.style.padding = '0';
       top.style.minHeight = '0';
       top.style.margin = '0';
+      top.style.border = 'none';
 
-      // Bottom stage should not force full viewport empty space
+      // Bottom: compact, no huge empty space
       bottom.style.minHeight = 'auto';
-      bottom.style.paddingTop = '20px';
+      bottom.style.paddingTop = '12px';
+      bottom.style.paddingBottom = '40px';
 
-      // Scroll so bottom stage ads sit near top of screen (not too far down)
+      // Wait for layout collapse, then scroll so 300x250 is fully visible at top
       setTimeout(function () {
-        const y = bottom.getBoundingClientRect().top + window.pageYOffset - 8;
-        window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
-      }, 320);
+        // Target the first bottom ad so it sits fully in view
+        const ad = document.getElementById('ad-bot-300');
+        if (ad) {
+          const rect = ad.getBoundingClientRect();
+          const absoluteTop = rect.top + window.pageYOffset;
+          // small gap from top of screen (safe area)
+          const offset = 12;
+          window.scrollTo({ top: Math.max(0, absoluteTop - offset), behavior: 'smooth' });
+        } else {
+          const y = bottom.getBoundingClientRect().top + window.pageYOffset - 12;
+          window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+        }
+      }, 350);
 
-      setTimeout(function () { startStageTimer('bottom'); }, 650);
+      setTimeout(function () { startStageTimer('bottom'); }, 700);
     }
 
     function goNext() {
