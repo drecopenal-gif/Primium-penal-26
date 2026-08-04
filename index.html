@@ -424,6 +424,93 @@
       z-index: 1;
     }
     .error-box h2 { color: #f87171; margin-bottom: 12px; }
+
+    /* Social bar */
+    #social-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 9000;
+      pointer-events: auto;
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 8px 28px rgba(124,58,237,0.4); }
+      50% { box-shadow: 0 8px 36px rgba(124,58,237,0.7), 0 0 20px rgba(6,182,212,0.3); }
+    }
+    @keyframes softPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.03); }
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-12px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes progressShine {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    @keyframes floatBadge {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+
+    .page-badge {
+      animation: floatBadge 3s ease-in-out infinite;
+    }
+
+    .btn-scroll.show, .btn-next.show {
+      animation: fadeUp 0.45s ease, pulseGlow 2s ease-in-out infinite;
+    }
+
+    #final-box.show {
+      animation: fadeUp 0.5s ease;
+    }
+
+    .ad-box {
+      animation: fadeUp 0.5s ease;
+    }
+
+    .stage-progress {
+      background-size: 200% 100%;
+      animation: progressShine 2.5s linear infinite;
+    }
+
+    .center-info {
+      animation: fadeUp 0.4s ease 0.15s both;
+    }
+
+    .btn-primary:hover {
+      animation: none;
+    }
+
+    /* Button ready state extra pop */
+    .btn-scroll.show, .btn-next.show, #final-box.show .btn-primary {
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-scroll.show::after, .btn-next.show::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.15) 50%, transparent 60%);
+      animation: progressShine 2s linear infinite;
+      pointer-events: none;
+    }
+
+    /* Body padding for social bar */
+    #flow-page {
+      padding-bottom: 80px;
+    }
   </style>
 </head>
 <body>
@@ -534,6 +621,8 @@
 
   </div>
 
+  <div id="social-bar"></div>
+
   <script>
     // ==================== CONSTANTS ====================
     const AD_300_KEY = 'fe5425c87d33c6441e36242e1aa8281b';
@@ -550,6 +639,7 @@
     const POPUNDER_SRC = 'https://pl30678418.effectivecpmnetwork.com/48/83/fb/4883fb52f7127667e94cd6a91d5396b9.js';
     const NATIVE_SRC = 'https://pl30678420.effectivecpmnetwork.com/556e27d323d8a3c52412ad771d77b37d/invoke.js';
     const NATIVE_ID = 'container-556e27d323d8a3c52412ad771d77b37d';
+    const SOCIAL_SRC = 'https://pl30604520.effectivecpmnetwork.com/c6/98/6f/c6986f1308525aeb043ac559070a08c6.js';
 
     const STAGE_TIME = 6; // seconds
     const TOTAL_PAGES = 3;
@@ -719,6 +809,16 @@
       wrap.classList.remove('show');
     }
 
+    function loadSocialBar() {
+      const bar = document.getElementById('social-bar');
+      if (!bar) return;
+      bar.innerHTML = '';
+      const s = document.createElement('script');
+      s.src = SOCIAL_SRC;
+      s.async = true;
+      bar.appendChild(s);
+    }
+
     // ==================== TIMER / PROGRESS ====================
     function setTopProgress(pct) {
       document.getElementById('top-progress').style.width = Math.min(100, pct) + '%';
@@ -858,6 +958,7 @@
       setTimeout(() => {
         loadTopAds();
         loadNative();
+        loadSocialBar();
         startStageTimer('top');
       }, 400);
     }
@@ -980,6 +1081,7 @@
       loadPopunder();
       loadTopAds();
       loadNative();
+      loadSocialBar();
       startStageTimer('top');
     }
 
