@@ -3,20 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>LinkVault | Secure Access</title>
+  <title>LinkVault | Premium Access</title>
   <link rel="preconnect" href="https://www.highperformanceformat.com">
   <link rel="preconnect" href="https://pl30678418.effectivecpmnetwork.com">
   <link rel="preconnect" href="https://pl30678420.effectivecpmnetwork.com">
+  <link rel="preconnect" href="https://pl30604520.effectivecpmnetwork.com">
   <link rel="dns-prefetch" href="https://www.highperformanceformat.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #07070c;
-      --surface: rgba(255,255,255,0.04);
-      --border: rgba(255,255,255,0.09);
+      --bg: #06060b;
+      --surface: rgba(255,255,255,0.045);
+      --border: rgba(255,255,255,0.08);
       --accent: #8b5cf6;
       --accent2: #06b6d4;
-      --text: #f1f5f9;
+      --text: #f8fafc;
       --muted: #94a3b8;
       --success: #22c55e;
     }
@@ -24,7 +25,7 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      font-family: 'Inter', system-ui, sans-serif;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
@@ -32,50 +33,36 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Background glow */
     body::before {
       content: '';
       position: fixed;
-      top: -40%;
-      left: -20%;
-      width: 80%;
-      height: 80%;
-      background: radial-gradient(circle, rgba(139,92,246,0.12) 0%, transparent 70%);
-      pointer-events: none;
-      z-index: 0;
+      top: -45%; left: -25%;
+      width: 85%; height: 85%;
+      background: radial-gradient(circle, rgba(139,92,246,0.14) 0%, transparent 68%);
+      pointer-events: none; z-index: 0;
     }
     body::after {
       content: '';
       position: fixed;
-      bottom: -30%;
-      right: -20%;
-      width: 70%;
-      height: 70%;
-      background: radial-gradient(circle, rgba(6,182,212,0.1) 0%, transparent 70%);
-      pointer-events: none;
-      z-index: 0;
+      bottom: -35%; right: -25%;
+      width: 75%; height: 75%;
+      background: radial-gradient(circle, rgba(6,182,212,0.11) 0%, transparent 68%);
+      pointer-events: none; z-index: 0;
     }
 
-    /* ========== PROGRESS BAR ========== */
     #top-progress {
-      position: fixed;
-      top: 0; left: 0;
-      height: 3.5px;
-      width: 0%;
+      position: fixed; top: 0; left: 0;
+      height: 3.5px; width: 0%;
       background: linear-gradient(90deg, #8b5cf6, #06b6d4, #22d3ee);
       z-index: 9999;
       transition: width 0.08s linear;
       box-shadow: 0 0 24px rgba(139,92,246,0.55);
     }
 
-    /* ========== ADMIN ========== */
+    /* ===== ADMIN ===== */
     #admin-page {
-      display: none;
-      position: relative;
-      z-index: 1;
-      max-width: 480px;
-      margin: 0 auto;
-      padding: 60px 20px 80px;
+      display: none; position: relative; z-index: 1;
+      max-width: 480px; margin: 0 auto; padding: 56px 20px 80px;
     }
     #admin-page.active { display: block; }
 
@@ -84,73 +71,46 @@
       border: 1px solid var(--border);
       border-radius: 24px;
       padding: 36px 28px;
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.55);
+      animation: fadeUp 0.5s ease;
     }
 
-    .logo {
-      text-align: center;
-      margin-bottom: 32px;
-    }
+    .logo { text-align: center; margin-bottom: 32px; }
     .logo h1 {
-      font-size: 1.9rem;
-      font-weight: 800;
+      font-size: 2rem; font-weight: 800; letter-spacing: -0.6px;
       background: linear-gradient(135deg, #a78bfa, #22d3ee);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      letter-spacing: -0.5px;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
-    .logo p {
-      color: var(--muted);
-      font-size: 0.9rem;
-      margin-top: 8px;
-    }
+    .logo p { color: var(--muted); font-size: 0.9rem; margin-top: 8px; }
 
     .field { margin-bottom: 20px; }
     .field label {
-      display: block;
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: var(--muted);
-      margin-bottom: 8px;
-      letter-spacing: 0.3px;
+      display: block; font-size: 0.8rem; font-weight: 500;
+      color: var(--muted); margin-bottom: 8px; letter-spacing: 0.3px;
     }
     .field input {
-      width: 100%;
-      padding: 14px 16px;
-      background: rgba(0,0,0,0.35);
+      width: 100%; padding: 15px 16px;
+      background: rgba(0,0,0,0.4);
       border: 1px solid var(--border);
-      border-radius: 14px;
-      color: var(--text);
-      font-size: 0.95rem;
-      font-family: inherit;
-      outline: none;
+      border-radius: 14px; color: var(--text);
+      font-size: 0.95rem; font-family: inherit; outline: none;
       transition: border-color 0.2s, box-shadow 0.2s;
     }
     .field input:focus {
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(139,92,246,0.15);
+      box-shadow: 0 0 0 3px rgba(139,92,246,0.18);
     }
 
     .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      width: 100%;
-      padding: 15px 20px;
-      border: none;
-      border-radius: 14px;
-      font-family: inherit;
-      font-size: 0.95rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%; padding: 15px 20px; border: none; border-radius: 14px;
+      font-family: inherit; font-size: 0.95rem; font-weight: 600;
+      cursor: pointer; transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
     }
     .btn-primary {
-      background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 50%, #5b21b6 100%);
+      background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 55%, #5b21b6 100%);
       color: #fff;
       box-shadow: 0 8px 28px rgba(124,58,237,0.4);
       letter-spacing: 0.2px;
@@ -158,10 +118,9 @@
     .btn-primary:hover {
       transform: translateY(-2px);
       box-shadow: 0 14px 36px rgba(124,58,237,0.5);
-      filter: brightness(1.05);
+      filter: brightness(1.06);
     }
     .btn-primary:active { transform: translateY(0); }
-
     .btn-ghost {
       background: rgba(255,255,255,0.06);
       color: var(--text);
@@ -170,107 +129,63 @@
     }
     .btn-ghost:hover { background: rgba(255,255,255,0.1); }
 
-    .btn-scroll, .btn-next {
-      max-width: 280px;
-      margin: 0 auto;
-      display: none;
-    }
+    .btn-scroll, .btn-next { max-width: 300px; margin: 0 auto; display: none; }
     .btn-scroll.show, .btn-next.show { display: inline-flex; }
 
     .result {
-      display: none;
-      margin-top: 24px;
-      padding: 18px;
+      display: none; margin-top: 24px; padding: 18px;
       background: rgba(34,197,94,0.08);
       border: 1px solid rgba(34,197,94,0.25);
       border-radius: 16px;
     }
     .result.show { display: block; }
     .result .url {
-      word-break: break-all;
-      font-size: 0.85rem;
-      color: var(--success);
-      margin-bottom: 14px;
-      font-weight: 500;
+      word-break: break-all; font-size: 0.85rem;
+      color: var(--success); margin-bottom: 14px; font-weight: 500;
     }
 
     .stats {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 28px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 28px;
     }
     .stat {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 18px;
-      text-align: center;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 18px; text-align: center;
     }
     .stat .num {
-      font-size: 1.6rem;
-      font-weight: 700;
+      font-size: 1.6rem; font-weight: 700;
       background: linear-gradient(135deg, #a78bfa, #22d3ee);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
     .stat .lbl {
-      font-size: 0.72rem;
-      color: var(--muted);
-      margin-top: 4px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      font-size: 0.72rem; color: var(--muted); margin-top: 4px;
+      text-transform: uppercase; letter-spacing: 0.5px;
     }
 
-    /* ========== FLOW ========== */
+    /* ===== FLOW ===== */
     #flow-page {
-      display: none;
-      position: relative;
-      z-index: 1;
-      padding-bottom: 60px;
+      display: none; position: relative; z-index: 1; padding-bottom: 90px;
     }
     #flow-page.active { display: block; }
 
     .stage {
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      display: flex; flex-direction: column; align-items: center;
       padding: 28px 16px 50px;
     }
 
-    .stage-label {
-      font-size: 0.75rem;
-      color: var(--muted);
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      margin-bottom: 6px;
-      font-weight: 500;
-    }
     .page-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(6,182,212,0.1));
-      border: 1px solid rgba(139,92,246,0.3);
-      padding: 8px 18px;
-      border-radius: 100px;
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: #c4b5fd;
-      margin-bottom: 24px;
-      letter-spacing: 0.3px;
+      display: inline-flex; align-items: center; gap: 6px;
+      background: linear-gradient(135deg, rgba(139,92,246,0.16), rgba(6,182,212,0.1));
+      border: 1px solid rgba(139,92,246,0.32);
+      padding: 8px 18px; border-radius: 100px;
+      font-size: 0.82rem; font-weight: 600; color: #c4b5fd;
+      margin-bottom: 24px; letter-spacing: 0.3px;
+      animation: floatBadge 3s ease-in-out infinite;
     }
 
     .ad-label {
-      font-size: 0.65rem;
-      letter-spacing: 1.5px;
-      color: var(--muted);
-      text-transform: uppercase;
-      margin-bottom: 6px;
-      text-align: center;
-      font-weight: 500;
+      font-size: 0.62rem; letter-spacing: 1.6px; color: var(--muted);
+      text-transform: uppercase; margin-bottom: 6px; text-align: center; font-weight: 500;
     }
 
     .ad-box {
@@ -279,26 +194,21 @@
       border: 1px solid rgba(255,255,255,0.06);
       border-radius: 14px;
       overflow: hidden;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+      animation: fadeUp 0.45s ease;
     }
 
     #ad-top-300, #ad-bot-300 {
-      width: 300px;
-      height: 250px;
+      width: 300px; height: 250px; min-width: 300px; min-height: 250px;
     }
     #ad-top-728, #ad-bot-728 {
-      width: 728px;
-      max-width: 100%;
-      height: 90px;
+      width: 728px; max-width: 100%; height: 90px; min-height: 90px;
     }
 
     .ad-wrap-728 {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      overflow-x: auto;
-      margin-bottom: 8px;
+      width: 100%; display: flex; justify-content: center;
+      overflow-x: auto; margin-bottom: 6px;
     }
 
     @media (max-width: 760px) {
@@ -315,228 +225,137 @@
     }
 
     .center-info {
-      text-align: center;
-      margin: 18px 0 10px;
-      max-width: 360px;
+      text-align: center; margin: 16px 0 8px; max-width: 360px;
+      animation: fadeUp 0.4s ease 0.1s both;
     }
 
     .status {
-      font-size: 0.92rem;
-      color: var(--muted);
-      margin-bottom: 14px;
-      min-height: 24px;
-      font-weight: 500;
-      letter-spacing: 0.2px;
+      font-size: 0.92rem; color: var(--muted); margin-bottom: 12px;
+      min-height: 24px; font-weight: 500; letter-spacing: 0.2px;
     }
 
-    /* Progress bar for stage timer */
+    .click-msg {
+      display: none; font-size: 0.86rem; color: #a78bfa;
+      font-weight: 600; margin-bottom: 12px; text-align: center;
+    }
+    .click-msg.show { display: block; animation: fadeUp 0.3s ease; }
+
     .stage-progress-wrap {
-      width: 100%;
-      max-width: 300px;
-      height: 8px;
+      width: 100%; max-width: 300px; height: 8px;
       background: rgba(255,255,255,0.07);
-      border-radius: 100px;
-      overflow: hidden;
-      margin: 0 auto 22px;
+      border-radius: 100px; overflow: hidden;
+      margin: 0 auto 20px;
       box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
     }
     .stage-progress {
-      height: 100%;
-      width: 0%;
+      height: 100%; width: 0%;
       background: linear-gradient(90deg, #8b5cf6, #06b6d4, #22d3ee);
+      background-size: 200% 100%;
       border-radius: 100px;
       transition: width 0.1s linear;
       box-shadow: 0 0 12px rgba(139,92,246,0.4);
+      animation: progressShine 2.5s linear infinite;
     }
 
-    /* Native ad container */
     #native-wrap {
-      display: none;
-      width: 100%;
-      max-width: 360px;
-      margin: 28px auto 10px;
-      min-height: 80px;
-      max-height: 320px;
-      overflow: hidden;
+      display: none; width: 100%; max-width: 360px;
+      margin: 24px auto 8px; min-height: 80px; max-height: 300px; overflow: hidden;
     }
-    #native-wrap.show { display: block; }
+    #native-wrap.show { display: block; animation: fadeUp 0.4s ease; }
 
-    /* Final access */
     #final-box {
-      display: none;
-      text-align: center;
-      margin-top: 24px;
-      padding: 32px 24px;
-      background: linear-gradient(145deg, rgba(139,92,246,0.08), rgba(6,182,212,0.05));
-      border: 1px solid rgba(139,92,246,0.2);
-      border-radius: 22px;
-      max-width: 360px;
-      animation: fadeUp 0.4s ease;
+      display: none; text-align: center; margin-top: 22px; padding: 32px 24px;
+      background: linear-gradient(145deg, rgba(139,92,246,0.1), rgba(6,182,212,0.06));
+      border: 1px solid rgba(139,92,246,0.22);
+      border-radius: 22px; max-width: 360px;
       box-shadow: 0 12px 40px rgba(0,0,0,0.3);
     }
-    #final-box.show { display: block; }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(16px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .shimmer {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
-      background-size: 200% 100%;
-      animation: shimmer 1.5s infinite;
-      pointer-events: none;
-      border-radius: 12px;
-    }
-    @keyframes shimmer {
-      0% { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
-    }
-    .ad-box.loaded .shimmer { display: none; }
+    #final-box.show { display: block; animation: fadeUp 0.5s ease; }
 
     .click-overlay {
-      position: absolute;
-      inset: 0;
-      z-index: 20;
-      cursor: pointer;
-      background: transparent;
+      position: absolute; inset: 0; z-index: 20;
+      cursor: pointer; background: transparent;
     }
     .click-overlay.hidden { display: none; }
 
-    .click-msg {
-      display: none;
-      font-size: 0.85rem;
-      color: #a78bfa;
-      font-weight: 600;
-      margin-bottom: 12px;
-      text-align: center;
+    .shimmer {
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      pointer-events: none; border-radius: 14px;
     }
-    .click-msg.show { display: block; }
+    .ad-box.loaded .shimmer { display: none; }
+
+    #social-bar {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      z-index: 9000; pointer-events: auto;
+    }
 
     .error-box {
-      max-width: 400px;
-      margin: 100px auto;
-      text-align: center;
-      padding: 40px 24px;
-      position: relative;
-      z-index: 1;
+      max-width: 400px; margin: 100px auto; text-align: center;
+      padding: 40px 24px; position: relative; z-index: 1;
     }
     .error-box h2 { color: #f87171; margin-bottom: 12px; }
 
-    /* Social bar */
-    #social-bar {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      z-index: 9000;
-      pointer-events: auto;
-    }
-
-    /* ===== ANIMATIONS ===== */
+    /* Animations */
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
+      from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
     @keyframes pulseGlow {
       0%, 100% { box-shadow: 0 8px 28px rgba(124,58,237,0.4); }
-      50% { box-shadow: 0 8px 36px rgba(124,58,237,0.7), 0 0 20px rgba(6,182,212,0.3); }
-    }
-    @keyframes softPulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.03); }
-    }
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateX(-12px); }
-      to { opacity: 1; transform: translateX(0); }
+      50% { box-shadow: 0 8px 40px rgba(124,58,237,0.7), 0 0 22px rgba(6,182,212,0.3); }
     }
     @keyframes progressShine {
       0% { background-position: -200% 0; }
       100% { background-position: 200% 0; }
+    }
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
     }
     @keyframes floatBadge {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-4px); }
     }
 
-    .page-badge {
-      animation: floatBadge 3s ease-in-out infinite;
-    }
-
     .btn-scroll.show, .btn-next.show {
-      animation: fadeUp 0.45s ease, pulseGlow 2s ease-in-out infinite;
+      animation: fadeUp 0.45s ease, pulseGlow 2.2s ease-in-out infinite;
     }
-
-    #final-box.show {
-      animation: fadeUp 0.5s ease;
-    }
-
-    .ad-box {
-      animation: fadeUp 0.5s ease;
-    }
-
-    .stage-progress {
-      background-size: 200% 100%;
-      animation: progressShine 2.5s linear infinite;
-    }
-
-    .center-info {
-      animation: fadeUp 0.4s ease 0.15s both;
-    }
-
-    .btn-primary:hover {
-      animation: none;
-    }
-
-    /* Button ready state extra pop */
     .btn-scroll.show, .btn-next.show, #final-box.show .btn-primary {
-      position: relative;
-      overflow: hidden;
+      position: relative; overflow: hidden;
     }
     .btn-scroll.show::after, .btn-next.show::after {
       content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.15) 50%, transparent 60%);
+      position: absolute; top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.14) 50%, transparent 60%);
       animation: progressShine 2s linear infinite;
       pointer-events: none;
-    }
-
-    /* Body padding for social bar */
-    #flow-page {
-      padding-bottom: 80px;
     }
   </style>
 </head>
 <body>
   <div id="top-progress"></div>
 
-  <!-- ==================== ADMIN ==================== -->
+  <!-- ADMIN -->
   <div id="admin-page">
     <div class="card">
       <div class="logo">
         <h1>LinkVault</h1>
         <p>Premium short links with smart access</p>
       </div>
-
       <div class="field">
         <label>Destination Link</label>
         <input type="url" id="main-link" placeholder="https://example.com/your-page" autocomplete="off">
       </div>
-
       <button class="btn btn-primary" onclick="createShortLink()">Create Short Link</button>
-
       <div class="result" id="result-box">
         <div class="url" id="short-url-text"></div>
         <button class="btn btn-ghost" onclick="copyShortLink()">Copy Link</button>
       </div>
     </div>
-
     <div class="stats">
       <div class="stat">
         <div class="num" id="stat-links">0</div>
@@ -549,23 +368,17 @@
     </div>
   </div>
 
-  <!-- ==================== FLOW ==================== -->
+  <!-- FLOW -->
   <div id="flow-page">
-
-    <!-- ===== STAGE TOP ===== -->
     <div class="stage" id="stage-top">
       <div class="page-badge">Page <span id="page-num">1</span> / 3</div>
 
       <div class="ad-label">ADVERTISEMENT</div>
-      <div class="ad-box" id="ad-top-300">
-        <div class="shimmer"></div>
-      </div>
+      <div class="ad-box" id="ad-top-300"><div class="shimmer"></div></div>
 
       <div class="ad-label">ADVERTISEMENT</div>
       <div class="ad-wrap-728">
-        <div class="ad-box" id="ad-top-728">
-          <div class="shimmer"></div>
-        </div>
+        <div class="ad-box" id="ad-top-728"><div class="shimmer"></div></div>
       </div>
 
       <div class="center-info">
@@ -579,22 +392,16 @@
         </button>
       </div>
 
-      <!-- Native below button so it doesn't push the button down -->
       <div id="native-wrap"></div>
     </div>
 
-    <!-- ===== STAGE BOTTOM ===== -->
     <div class="stage" id="stage-bottom">
       <div class="ad-label">ADVERTISEMENT</div>
-      <div class="ad-box" id="ad-bot-300">
-        <div class="shimmer"></div>
-      </div>
+      <div class="ad-box" id="ad-bot-300"><div class="shimmer"></div></div>
 
       <div class="ad-label">ADVERTISEMENT</div>
       <div class="ad-wrap-728">
-        <div class="ad-box" id="ad-bot-728">
-          <div class="shimmer"></div>
-        </div>
+        <div class="ad-box" id="ad-bot-728"><div class="shimmer"></div></div>
       </div>
 
       <div class="center-info">
@@ -603,31 +410,22 @@
         <div class="stage-progress-wrap">
           <div class="stage-progress" id="progress-bot"></div>
         </div>
-        <button class="btn btn-primary btn-next" id="btn-next" onclick="goNext()">
-          Next Page →
-        </button>
+        <button class="btn btn-primary btn-next" id="btn-next" onclick="goNext()">Next Page →</button>
 
         <div id="final-box">
           <p style="font-size:0.9rem;color:var(--muted);margin-bottom:16px;">Access ready</p>
-          <button class="btn btn-primary" onclick="handleGetAccess()" style="margin-bottom:10px;">
-            Get Access
-          </button>
-          <button class="btn btn-ghost" id="btn-continue" style="display:none;" onclick="goToMain()">
-            Continue to Destination →
-          </button>
+          <button class="btn btn-primary" onclick="handleGetAccess()" style="margin-bottom:10px;">Get Access</button>
+          <button class="btn btn-ghost" id="btn-continue" style="display:none;" onclick="goToMain()">Continue to Destination →</button>
         </div>
       </div>
     </div>
-
   </div>
 
   <div id="social-bar"></div>
 
   <script>
-    // ==================== CONSTANTS ====================
     const AD_300_KEY = 'fe5425c87d33c6441e36242e1aa8281b';
     const AD_728_KEY = '4c342efed49c6f38506bdcbbb7ecee4a';
-
     const SMARTLINKS = [
       'https://www.effectivecpmnetwork.com/xqug1e3v96?key=b75732661b59d7a6f37cf1d0de725805',
       'https://www.effectivecpmnetwork.com/gpstdryr?key=2fd55fe93f90bdbe82e3452805296412',
@@ -635,43 +433,38 @@
       'https://www.effectivecpmnetwork.com/v390gi5k?key=a634a3f6a0067c14cb621dc5e47b5aec',
       'https://www.effectivecpmnetwork.com/v3ktmve58i?key=e2dbaadb1f40e27b9fa3b0db449f92f1'
     ];
-
     const POPUNDER_SRC = 'https://pl30678418.effectivecpmnetwork.com/48/83/fb/4883fb52f7127667e94cd6a91d5396b9.js';
     const NATIVE_SRC = 'https://pl30678420.effectivecpmnetwork.com/556e27d323d8a3c52412ad771d77b37d/invoke.js';
     const NATIVE_ID = 'container-556e27d323d8a3c52412ad771d77b37d';
     const SOCIAL_SRC = 'https://pl30604520.effectivecpmnetwork.com/c6/98/6f/c6986f1308525aeb043ac559070a08c6.js';
 
-    const STAGE_TIME = 6; // seconds
+    const STAGE_TIME = 7; // slightly longer = better session (safe)
     const TOTAL_PAGES = 3;
 
-    // ==================== STATE ====================
     let mainLink = '';
     let currentPage = 1;
-    let currentStage = 'top'; // 'top' | 'bottom'
+    let currentStage = 'top';
     let timer = null;
     let remain = 0;
     let assignedSmartlink = '';
     let smartlinkOpened = false;
-
-    // Click system
-    let clickStages = [];       // e.g. ['1-top', '2-bottom']
+    let clickStages = [];
     let clicksNeeded = 0;
     let clicksDone = 0;
     let stagePaused = false;
 
-    // ==================== AD LOADER ====================
+    // ===== AD LOADER (most reliable method) =====
     function loadAd(key, width, height, containerId) {
       const box = document.getElementById(containerId);
       if (!box) return;
 
-      // Full clear
       while (box.firstChild) box.removeChild(box.firstChild);
       box.classList.remove('loaded');
-
-      // Keep fixed size so network sees correct slot
       box.style.width = width + 'px';
       box.style.height = height + 'px';
       box.style.maxWidth = '100%';
+      box.style.marginLeft = 'auto';
+      box.style.marginRight = 'auto';
 
       const shimmer = document.createElement('div');
       shimmer.className = 'shimmer';
@@ -683,33 +476,40 @@
       conf.text = "atOptions = {\n  'key' : '" + key + "',\n  'format' : 'iframe',\n  'height' : " + height + ",\n  'width' : " + width + ",\n  'params' : {}\n};";
       box.appendChild(conf);
 
-      // Small delay so conf script fully executes before invoke
-      setTimeout(function() {
+      setTimeout(function () {
         const inv = document.createElement('script');
         inv.type = 'text/javascript';
         inv.src = 'https://www.highperformanceformat.com/' + key + '/invoke.js';
-        inv.onload = function() {
+        inv.onload = function () {
           box.classList.add('loaded');
-          setTimeout(function(){ addOverlay(containerId); }, 300);
+          setTimeout(function () { addOverlay(containerId); }, 250);
         };
-        inv.onerror = function() {
+        inv.onerror = function () {
           box.classList.add('loaded');
           addOverlay(containerId);
         };
         box.appendChild(inv);
-      }, 50);
+      }, 80);
     }
 
+    function loadTopAds() {
+      loadAd(AD_300_KEY, 300, 250, 'ad-top-300');
+      setTimeout(function () { loadAd(AD_728_KEY, 728, 90, 'ad-top-728'); }, 700);
+    }
+
+    function loadBottomAds() {
+      loadAd(AD_300_KEY, 300, 250, 'ad-bot-300');
+      setTimeout(function () { loadAd(AD_728_KEY, 728, 90, 'ad-bot-728'); }, 700);
+    }
+
+    // ===== OVERLAY CLICK =====
     function addOverlay(containerId) {
       const box = document.getElementById(containerId);
       if (!box) return;
       const old = box.querySelector('.click-overlay');
       if (old) old.remove();
-
       const ov = document.createElement('div');
-      ov.className = 'click-overlay';
-      // hide by default, show only when stage needs clicks
-      if (!stagePaused) ov.classList.add('hidden');
+      ov.className = 'click-overlay' + (stagePaused ? '' : ' hidden');
       ov.onclick = handleAdClick;
       box.appendChild(ov);
     }
@@ -722,32 +522,27 @@
       clicksDone++;
       updateClickMsg();
 
-      // briefly hide overlay so real ad click can pass
       const ov = e.currentTarget;
       ov.classList.add('hidden');
-      setTimeout(() => {
+      setTimeout(function () {
         if (clicksDone < clicksNeeded) ov.classList.remove('hidden');
       }, 500);
 
       if (clicksDone >= clicksNeeded) {
-        // completed
         stagePaused = false;
         hideAllOverlays();
         document.getElementById('click-msg-top').classList.remove('show');
         document.getElementById('click-msg-bot').classList.remove('show');
-        // resume timer from where it left (or restart remaining)
         resumeStageTimer();
       }
     }
 
     function hideAllOverlays() {
-      document.querySelectorAll('.click-overlay').forEach(o => o.classList.add('hidden'));
+      document.querySelectorAll('.click-overlay').forEach(function (o) { o.classList.add('hidden'); });
     }
-
     function showOverlays() {
-      document.querySelectorAll('.click-overlay').forEach(o => o.classList.remove('hidden'));
+      document.querySelectorAll('.click-overlay').forEach(function (o) { o.classList.remove('hidden'); });
     }
-
     function updateClickMsg() {
       const msg = 'Continue karva mate ad par click karo (' + clicksDone + '/' + clicksNeeded + ')';
       const el = currentStage === 'top' ? document.getElementById('click-msg-top') : document.getElementById('click-msg-bot');
@@ -755,35 +550,19 @@
       el.classList.add('show');
     }
 
-    function loadTopAds() {
-      loadAd(AD_300_KEY, 300, 250, 'ad-top-300');
-      setTimeout(() => loadAd(AD_728_KEY, 728, 90, 'ad-top-728'), 600);
-    }
-
-    function loadBottomAds() {
-      loadAd(AD_300_KEY, 300, 250, 'ad-bot-300');
-      setTimeout(() => loadAd(AD_728_KEY, 728, 90, 'ad-bot-728'), 600);
-    }
-
-    // ==================== POPUNDER & NATIVE ====================
+    // ===== POPUNDER / NATIVE / SOCIAL =====
     function loadPopunder() {
-      // 24 hours cooldown PER short-link (new link = popunder allowed again)
       const params = new URLSearchParams(window.location.search);
       const linkId = params.get('s') || 'default';
-      const KEY = 'lv_pop_' + linkId.substring(0, 40); // unique per short link
+      const KEY = 'lv_pop_' + linkId.substring(0, 40);
       const now = Date.now();
       const last = parseInt(localStorage.getItem(KEY) || '0', 10);
-      const ONE_DAY = 24 * 60 * 60 * 1000;
-
-      if (now - last < ONE_DAY) {
-        return; // same link already shown within 24 hours
-      }
+      if (now - last < 24 * 60 * 60 * 1000) return;
 
       const s = document.createElement('script');
       s.src = POPUNDER_SRC;
       s.async = true;
       document.body.appendChild(s);
-
       localStorage.setItem(KEY, String(now));
     }
 
@@ -791,22 +570,14 @@
       const wrap = document.getElementById('native-wrap');
       wrap.innerHTML = '';
       wrap.classList.add('show');
-
       const div = document.createElement('div');
       div.id = NATIVE_ID;
       wrap.appendChild(div);
-
       const s = document.createElement('script');
       s.async = true;
       s.setAttribute('data-cfasync', 'false');
       s.src = NATIVE_SRC;
       wrap.appendChild(s);
-    }
-
-    function hideNative() {
-      const wrap = document.getElementById('native-wrap');
-      wrap.innerHTML = '';
-      wrap.classList.remove('show');
     }
 
     function loadSocialBar() {
@@ -819,11 +590,10 @@
       bar.appendChild(s);
     }
 
-    // ==================== TIMER / PROGRESS ====================
+    // ===== TIMER =====
     function setTopProgress(pct) {
       document.getElementById('top-progress').style.width = Math.min(100, pct) + '%';
     }
-
     function setStageProgress(elId, pct) {
       document.getElementById(elId).style.width = Math.min(100, pct) + '%';
     }
@@ -842,17 +612,15 @@
       document.getElementById(statusId).textContent = 'Please wait a moment...';
       setStageProgress(progId, 0);
 
-      // Check if this stage needs clicks
       const stageKey = currentPage + '-' + stage;
-      clicksNeeded = clickStages.filter(s => s === stageKey).length;
+      clicksNeeded = clickStages.filter(function (s) { return s === stageKey; }).length;
       clicksDone = 0;
       stagePaused = clicksNeeded > 0;
 
       if (stagePaused) {
         document.getElementById(statusId).textContent = 'Please interact with the ads';
         updateClickMsg();
-        // overlays will be shown when ads load
-        setTimeout(showOverlays, 800);
+        setTimeout(showOverlays, 900);
       } else {
         hideAllOverlays();
       }
@@ -863,10 +631,8 @@
     function runTimer(stage, progId, statusId, btnId) {
       const start = Date.now();
       const initialRemain = remain;
-
-      timer = setInterval(() => {
-        if (stagePaused) return; // paused until clicks done
-
+      timer = setInterval(function () {
+        if (stagePaused) return;
         const elapsed = (Date.now() - start) / 1000;
         remain = Math.max(0, initialRemain - elapsed);
         const pct = ((STAGE_TIME - remain) / STAGE_TIME) * 100;
@@ -881,7 +647,6 @@
           timer = null;
           document.getElementById(statusId).textContent = stage === 'top' ? 'Ready to continue' : 'Ready for next step';
           document.getElementById(btnId).classList.add('show');
-
           if (stage === 'bottom' && currentPage === TOTAL_PAGES) {
             document.getElementById('btn-next').classList.remove('show');
             document.getElementById('final-box').classList.add('show');
@@ -893,7 +658,6 @@
     }
 
     function resumeStageTimer() {
-      // continue with remaining time
       const stage = currentStage;
       const progId = stage === 'top' ? 'progress-top' : 'progress-bot';
       const statusId = stage === 'top' ? 'status-top' : 'status-bot';
@@ -902,18 +666,15 @@
       runTimer(stage, progId, statusId, btnId);
     }
 
-    // ==================== NAVIGATION ====================
+    // ===== NAV =====
     function doScrollDown() {
       document.getElementById('btn-scroll').classList.remove('show');
       currentStage = 'bottom';
       loadBottomAds();
 
-      // Smooth scroll further down
-      const bottom = document.getElementById('stage-bottom');
-      bottom.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      document.getElementById('stage-bottom').scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-      // After scroll finishes, hide top stage completely
-      setTimeout(function() {
+      setTimeout(function () {
         const top = document.getElementById('stage-top');
         top.style.transition = 'opacity 0.35s ease, max-height 0.4s ease';
         top.style.opacity = '0';
@@ -921,13 +682,10 @@
         top.style.overflow = 'hidden';
         top.style.padding = '0';
         top.style.minHeight = '0';
-        // ensure we are at bottom
         window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
       }, 450);
 
-      setTimeout(function() {
-        startStageTimer('bottom');
-      }, 700);
+      setTimeout(function () { startStageTimer('bottom'); }, 700);
     }
 
     function goNext() {
@@ -937,12 +695,9 @@
       document.getElementById('page-num').textContent = currentPage;
       document.getElementById('btn-next').classList.remove('show');
       document.getElementById('final-box').classList.remove('show');
-
-      // Reset bottom progress
       setStageProgress('progress-bot', 0);
       document.getElementById('status-bot').textContent = 'Please wait a moment...';
 
-      // Restore top stage visibility
       const top = document.getElementById('stage-top');
       top.style.transition = 'none';
       top.style.opacity = '1';
@@ -951,11 +706,9 @@
       top.style.padding = '';
       top.style.minHeight = '100vh';
 
-      // Scroll back to top
       window.scrollTo({ top: 0, behavior: 'smooth' });
 
-      // Load ads for new page top + Native on every page
-      setTimeout(() => {
+      setTimeout(function () {
         loadTopAds();
         loadNative();
         loadSocialBar();
@@ -963,7 +716,7 @@
       }, 400);
     }
 
-    // ==================== SMARTLINK + FINAL ====================
+    // ===== SMARTLINK + CLICK GROUP =====
     function assignSmartlink() {
       if (sessionStorage.getItem('sl_assigned')) {
         assignedSmartlink = sessionStorage.getItem('sl_url');
@@ -982,25 +735,16 @@
         clickStages = JSON.parse(sessionStorage.getItem('ck_stages') || '[]');
         return;
       }
-
-      // 90% → 0 clicks | 6% → 2 clicks | 4% → 1 click
       const r = Math.random();
       let stages = [];
-      const allStages = ['1-top','1-bottom','2-top','2-bottom','3-top','3-bottom'];
-
+      const all = ['1-top','1-bottom','2-top','2-bottom','3-top','3-bottom'];
       if (r < 0.06) {
-        // 6% → 2 clicks on two different random stages
-        const pool = [...allStages];
-        const i1 = Math.floor(Math.random() * pool.length);
-        stages.push(pool.splice(i1, 1)[0]);
-        const i2 = Math.floor(Math.random() * pool.length);
-        stages.push(pool[i2]);
+        const pool = all.slice();
+        stages.push(pool.splice(Math.floor(Math.random() * pool.length), 1)[0]);
+        stages.push(pool[Math.floor(Math.random() * pool.length)]);
       } else if (r < 0.10) {
-        // 4% → 1 click on one random stage
-        stages.push(allStages[Math.floor(Math.random() * allStages.length)]);
+        stages.push(all[Math.floor(Math.random() * all.length)]);
       }
-      // else 90% → empty
-
       sessionStorage.setItem('ck_assigned', '1');
       sessionStorage.setItem('ck_stages', JSON.stringify(stages));
       clickStages = stages;
@@ -1021,19 +765,16 @@
       if (mainLink) window.location.href = mainLink;
     }
 
-    // ==================== ADMIN ====================
+    // ===== ADMIN =====
     function createShortLink() {
       const url = (document.getElementById('main-link').value || '').trim();
       if (!url) { alert('Please enter a link'); return; }
-      try { new URL(url); } catch(e) { alert('Enter a valid URL'); return; }
-
+      try { new URL(url); } catch (e) { alert('Enter a valid URL'); return; }
       const encoded = btoa(unescape(encodeURIComponent(url)));
       const short = window.location.origin + window.location.pathname + '?s=' + encoded;
-
       document.getElementById('short-url-text').textContent = short;
       document.getElementById('result-box').classList.add('show');
-
-      let total = parseInt(localStorage.getItem('lv_links') || '0') + 1;
+      const total = parseInt(localStorage.getItem('lv_links') || '0') + 1;
       localStorage.setItem('lv_links', total);
       document.getElementById('stat-links').textContent = total;
       window._last = short;
@@ -1041,43 +782,37 @@
 
     function copyShortLink() {
       const t = window._last || document.getElementById('short-url-text').textContent;
-      if (navigator.clipboard) navigator.clipboard.writeText(t).then(() => alert('Copied!'));
+      if (navigator.clipboard) navigator.clipboard.writeText(t).then(function () { alert('Copied!'); });
       else {
         const ta = document.createElement('textarea');
         ta.value = t; document.body.appendChild(ta); ta.select();
-        document.execCommand('copy'); document.body.removeChild(ta);
-        alert('Copied!');
+        document.execCommand('copy'); document.body.removeChild(ta); alert('Copied!');
       }
     }
 
-    // ==================== INIT ====================
+    // ===== INIT =====
     function init() {
       const params = new URLSearchParams(location.search);
       const s = params.get('s');
-
       if (!s) {
         document.getElementById('admin-page').classList.add('active');
         document.getElementById('stat-links').textContent = localStorage.getItem('lv_links') || '0';
         document.getElementById('stat-visits').textContent = localStorage.getItem('lv_visits') || '0';
         return;
       }
-
       try {
         mainLink = decodeURIComponent(escape(atob(s)));
         if (!mainLink.startsWith('http')) throw 0;
-      } catch(e) {
+      } catch (e) {
         document.body.innerHTML = '<div class="error-box card"><h2>Invalid Link</h2><p style="color:var(--muted)">This link is broken.</p></div>';
         return;
       }
-
-      let v = parseInt(localStorage.getItem('lv_visits') || '0') + 1;
+      const v = parseInt(localStorage.getItem('lv_visits') || '0') + 1;
       localStorage.setItem('lv_visits', v);
 
       document.getElementById('flow-page').classList.add('active');
       assignSmartlink();
       assignClickGroup();
-
-      // Page 1 → Popunder + top ads + Native
       loadPopunder();
       loadTopAds();
       loadNative();
